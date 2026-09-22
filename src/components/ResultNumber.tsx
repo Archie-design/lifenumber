@@ -11,7 +11,7 @@ function Circles({ count }: { count: number }) {
         height={size}
         width={size}
         viewBox={`0 0 ${size} ${size}`}
-        className="absolute"
+        className="absolute inset-0 m-auto"
       >
         <circle
           cx={radius}
@@ -27,21 +27,28 @@ function Circles({ count }: { count: number }) {
   })
 }
 
+// An equilateral triangle's visual centroid sits 1/3 of the way up from its
+// base, not at the bounding-box center — so the polygon is inset within a
+// taller viewBox and shifted up to align its centroid with the box center.
 function Triangles({ count }: { count: number }) {
   return Array.from({ length: count }, (_, i) => {
     const size = 0.8 * (i + 1) * 75 + 15
-    const half = size / 2
-    const edge = size - 3
+    const box = size * 1.2
+    const half = box / 2
+    const top = box * 0.1
+    const bottom = top + size
+    const left = half - size / 2
+    const right = half + size / 2
     return (
       <svg
         key={i}
-        height={size}
-        width={size}
-        viewBox={`0 0 ${size} ${size}`}
-        className="absolute"
+        height={box}
+        width={box}
+        viewBox={`0 0 ${box} ${box}`}
+        className="absolute inset-0 m-auto"
       >
         <polygon
-          points={`${half} 0, ${edge} ${edge}, 0 ${edge}`}
+          points={`${half} ${top}, ${right} ${bottom}, ${left} ${bottom}`}
           stroke="var(--color-success)"
           fill="none"
           strokeWidth={2}
@@ -61,7 +68,7 @@ function Squares({ count }: { count: number }) {
         height={size}
         width={size}
         viewBox="0 0 75 75"
-        className="absolute"
+        className="absolute inset-0 m-auto"
       >
         <polygon
           points="3 3, 72 3, 72 72, 3 72"
