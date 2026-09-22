@@ -94,7 +94,7 @@ export const ResultNumber = memo(function ResultNumber({
     <div className="relative flex min-h-36 items-center justify-center sm:min-h-40">
       <p
         className={`font-display z-10 text-2xl sm:text-3xl ${
-          hasShapes ? 'font-bold text-base-content' : 'font-normal text-base-content/30'
+          hasShapes ? 'font-bold text-base-content' : 'font-normal text-[var(--capture-base-content-30)]'
         }`}
       >
         {digit}

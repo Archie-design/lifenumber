@@ -13,7 +13,7 @@ function ResultColumn({
 }) {
   return (
     <div className="flex-1 space-y-2 px-2 text-center">
-      <p className="text-xs font-medium tracking-wide text-base-content/60 sm:text-sm">
+      <p className="text-xs font-medium tracking-wide text-[var(--capture-base-content-60)] sm:text-sm">
         {label}
       </p>
       <p

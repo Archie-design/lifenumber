@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { toPng } from 'html-to-image'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { BirthdateInput } from './components/BirthdateInput'
 import { NumerologySummary } from './components/NumerologySummary'
 import { ResultNumber } from './components/ResultNumber'
@@ -13,6 +14,8 @@ function App() {
   const [name, setName] = useUrlState('name')
   const [birthdate, setBirthdate] = useUrlState('d')
   const inputRef = useRef<HTMLInputElement>(null)
+  const captureRef = useRef<HTMLDivElement>(null)
+  const [captureError, setCaptureError] = useState(false)
 
   const isValid = isValidBirthdate(birthdate)
 
@@ -30,9 +33,26 @@ function App() {
     [result, birthdate],
   )
 
+  const handleDownload = async () => {
+    if (!captureRef.current) return
+    setCaptureError(false)
+    try {
+      const dataUrl = await toPng(captureRef.current)
+      const link = document.createElement('a')
+      link.href = dataUrl
+      link.download = 'numbers-of-life.png'
+      link.click()
+    } catch {
+      setCaptureError(true)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-base-100">
-      <div className="mx-auto max-w-2xl px-4 py-10 sm:py-14">
+      <div
+        ref={captureRef}
+        className="mx-auto max-w-2xl bg-base-100 px-4 py-10 sm:py-14"
+      >
         <header className="mb-10 text-center">
           <p className="font-display text-sm tracking-[0.3em] text-primary uppercase">
             Numerology
@@ -40,29 +60,29 @@ function App() {
           <h1 className="font-display mt-2 text-4xl font-semibold text-base-content sm:text-5xl">
             生命靈數
           </h1>
-          <p className="mt-3 text-sm text-base-content/60">
+          <p className="mt-3 text-sm text-[var(--capture-base-content-60)]">
             輸入你的西元生日，探索專屬的數字命盤
           </p>
         </header>
 
         <div className="space-y-6">
-          <section className="rounded-box border border-base-300 bg-base-200/50 p-6 shadow-sm sm:p-8">
+          <section className="rounded-box border border-base-300 bg-[var(--capture-base-200-50)] p-6 shadow-sm sm:p-8">
             <div className="space-y-5">
               <label className="block">
-                <span className="mb-2 block text-center text-sm font-medium text-base-content/70">
+                <span className="mb-2 block text-center text-sm font-medium text-[var(--capture-base-content-70)]">
                   姓名
                 </span>
                 <input
                   type="text"
                   placeholder="請輸入姓名"
-                  className="input input-bordered w-full rounded-field bg-base-100 text-center text-2xl transition-shadow focus:outline-none focus:ring-2 focus:ring-primary/40"
+                  className="input input-bordered w-full rounded-field bg-base-100 text-center text-2xl transition-shadow focus:outline-none focus:ring-2 focus:ring-[var(--capture-primary-40)]"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </label>
 
               <label className="block">
-                <span className="mb-2 block text-center text-sm font-medium text-base-content/70">
+                <span className="mb-2 block text-center text-sm font-medium text-[var(--capture-base-content-70)]">
                   西元生日
                 </span>
                 <BirthdateInput
@@ -75,13 +95,13 @@ function App() {
           </section>
 
           {result ? (
-            <section className="animate-[reveal_300ms_ease-out] rounded-box border border-primary/30 bg-base-200/50 p-6 shadow-sm sm:p-8">
+            <section className="animate-[reveal_300ms_ease-out] rounded-box border border-[var(--capture-primary-30)] bg-[var(--capture-base-200-50)] p-6 shadow-sm sm:p-8">
               <NumerologySummary result={result} />
             </section>
           ) : null}
 
           {digitFrequencies.length > 0 ? (
-            <section className="animate-[reveal_300ms_ease-out] rounded-box border border-base-300 bg-base-200/50 p-4 shadow-sm sm:p-6">
+            <section className="animate-[reveal_300ms_ease-out] rounded-box border border-base-300 bg-[var(--capture-base-200-50)] p-4 shadow-sm sm:p-6">
               <div className="grid grid-cols-3">
                 {digitFrequencies.map((frequency) => (
                   <ResultNumber key={frequency.digit} {...frequency} />
@@ -91,6 +111,21 @@ function App() {
           ) : null}
         </div>
       </div>
+
+      {result ? (
+        <div className="mx-auto max-w-2xl px-4 pb-10 text-center">
+          <button
+            type="button"
+            onClick={handleDownload}
+            className="btn btn-outline btn-primary"
+          >
+            下載截圖
+          </button>
+          {captureError ? (
+            <p className="mt-2 text-sm text-error">截圖失敗，請再試一次</p>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   )
 }

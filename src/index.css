@@ -65,6 +65,36 @@
   color-scheme: light dark;
   --font-display: 'Noto Serif TC', serif;
   --font-body: 'Noto Sans TC', 'Noto Serif TC', sans-serif;
+
+  /*
+   * Pre-mixed rgba() equivalents of this theme's Tailwind opacity-modifier
+   * utilities (a slash-suffixed class such as background-color at 50%),
+   * scoped to elements captured by the screenshot-export feature.
+   * html-to-image cannot reliably resolve the oklab()/oklch() colors those
+   * utilities compute at runtime — captured backgrounds render as flat
+   * gray instead of the intended tinted color. Plain rgba() survives the
+   * capture correctly, so the capturable subtree uses these instead of
+   * opacity-modifier classes.
+   */
+  --capture-base-200-50: rgba(245, 239, 226, 0.5);
+  --capture-base-content-30: rgba(42, 32, 24, 0.3);
+  --capture-base-content-40: rgba(42, 32, 24, 0.4);
+  --capture-base-content-60: rgba(42, 32, 24, 0.6);
+  --capture-base-content-70: rgba(42, 32, 24, 0.7);
+  --capture-primary-30: rgba(30, 27, 75, 0.3);
+  --capture-primary-40: rgba(30, 27, 75, 0.4);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --capture-base-200-50: rgba(22, 22, 46, 0.5);
+    --capture-base-content-30: rgba(240, 236, 223, 0.3);
+    --capture-base-content-40: rgba(240, 236, 223, 0.4);
+    --capture-base-content-60: rgba(240, 236, 223, 0.6);
+    --capture-base-content-70: rgba(240, 236, 223, 0.7);
+    --capture-primary-30: rgba(202, 138, 4, 0.3);
+    --capture-primary-40: rgba(202, 138, 4, 0.4);
+  }
 }
 
 body {
