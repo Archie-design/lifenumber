@@ -46,9 +46,11 @@ function App() {
         <h1 className="text-center text-3xl">西元生日</h1>
         <BirthdateInput ref={inputRef} value={birthdate} onChange={setBirthdate} />
 
-        <div className="border py-2">
-          {result ? <NumerologySummary result={result} /> : null}
-        </div>
+        {result ? (
+          <div className="border py-2">
+            <NumerologySummary result={result} />
+          </div>
+        ) : null}
 
         <div className="-mx-2 flex flex-wrap text-center text-4xl">
           {digitFrequencies.map((frequency) => (
