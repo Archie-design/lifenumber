@@ -1,25 +1,41 @@
 import type { NumerologyResult } from '../lib/numerology'
 
+function ResultColumn({
+  label,
+  value,
+  colorClassName,
+  emphasized = false,
+}: {
+  label: string
+  value: number
+  colorClassName: string
+  emphasized?: boolean
+}) {
+  return (
+    <div className="flex-1 space-y-2 px-2 text-center">
+      <p className="text-xs font-medium tracking-wide text-base-content/60 sm:text-sm">
+        {label}
+      </p>
+      <p
+        className={`font-display text-4xl sm:text-5xl ${emphasized ? 'font-bold' : 'font-medium'} ${colorClassName}`}
+      >
+        {value}
+      </p>
+    </div>
+  )
+}
+
 export function NumerologySummary({ result }: { result: NumerologyResult }) {
   const showMinor = result.minorKind !== 'none'
   const minorLabel = result.minorKind === 'master' ? '卓越數' : '中間數'
 
   return (
-    <div className="flex justify-center text-center text-4xl">
-      <div className="w-1/3 space-y-2">
-        <p>後天數</p>
-        <p className="font-bold text-green-600">{result.major}</p>
-      </div>
+    <div className="flex items-center justify-center divide-x divide-base-300">
+      <ResultColumn label="後天數" value={result.major} colorClassName="text-success" emphasized />
       {showMinor ? (
-        <div className="w-1/3 space-y-2">
-          <p>{minorLabel}</p>
-          <p>{result.minor}</p>
-        </div>
+        <ResultColumn label={minorLabel} value={result.minor} colorClassName="text-secondary" />
       ) : null}
-      <div className="w-1/3 space-y-2">
-        <p>主命數</p>
-        <p className="font-bold text-red-600">{result.patch}</p>
-      </div>
+      <ResultColumn label="主命數" value={result.patch} colorClassName="text-error" emphasized />
     </div>
   )
 }

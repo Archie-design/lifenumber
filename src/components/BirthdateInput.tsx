@@ -23,7 +23,7 @@ export const BirthdateInput = forwardRef<HTMLInputElement, BirthdateInputProps>(
           type="text"
           inputMode="numeric"
           placeholder="____/__/__"
-          className="input input-bordered w-full text-center text-3xl"
+          className="input input-bordered w-full rounded-field bg-base-100 text-center text-2xl tracking-wider transition-shadow focus:outline-none focus:ring-2 focus:ring-primary/40"
           value={value}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
@@ -40,7 +40,7 @@ export const BirthdateInput = forwardRef<HTMLInputElement, BirthdateInputProps>(
             // still visible when the click completes.
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => onChange('')}
-            className="absolute inset-y-0 right-0 flex w-12 items-center justify-center text-xl text-base-content/50 hover:text-base-content"
+            className="absolute inset-y-0 right-0 flex w-11 items-center justify-center text-xl text-base-content/40 transition-colors hover:text-base-content"
           >
             ×
           </button>

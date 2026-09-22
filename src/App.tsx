@@ -31,33 +31,64 @@ function App() {
   )
 
   return (
-    <div className="app container mx-auto px-5">
-      <div className="mx-auto max-w-3xl space-y-4 py-5">
-        <div>
-          <div className="text-center text-3xl">Your Name</div>
-          <input
-            type="text"
-            className="input input-bordered w-full text-center text-3xl"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
+    <div className="min-h-screen bg-base-100">
+      <div className="mx-auto max-w-2xl px-4 py-10 sm:py-14">
+        <header className="mb-10 text-center">
+          <p className="font-display text-sm tracking-[0.3em] text-primary uppercase">
+            Numerology
+          </p>
+          <h1 className="font-display mt-2 text-4xl font-semibold text-base-content sm:text-5xl">
+            生命靈數
+          </h1>
+          <p className="mt-3 text-sm text-base-content/60">
+            輸入你的西元生日，探索專屬的數字命盤
+          </p>
+        </header>
 
-        <h1 className="text-center text-3xl">西元生日</h1>
-        <BirthdateInput ref={inputRef} value={birthdate} onChange={setBirthdate} />
+        <div className="space-y-6">
+          <section className="rounded-box border border-base-300 bg-base-200/50 p-6 shadow-sm sm:p-8">
+            <div className="space-y-5">
+              <label className="block">
+                <span className="mb-2 block text-center text-sm font-medium text-base-content/70">
+                  姓名
+                </span>
+                <input
+                  type="text"
+                  placeholder="請輸入姓名"
+                  className="input input-bordered w-full rounded-field bg-base-100 text-center text-2xl transition-shadow focus:outline-none focus:ring-2 focus:ring-primary/40"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </label>
 
-        {result ? (
-          <div className="border py-2">
-            <NumerologySummary result={result} />
-          </div>
-        ) : null}
-
-        <div className="-mx-2 flex flex-wrap text-center text-4xl">
-          {digitFrequencies.map((frequency) => (
-            <div key={frequency.digit} className="w-1/3 px-2 py-4">
-              <ResultNumber {...frequency} />
+              <label className="block">
+                <span className="mb-2 block text-center text-sm font-medium text-base-content/70">
+                  西元生日
+                </span>
+                <BirthdateInput
+                  ref={inputRef}
+                  value={birthdate}
+                  onChange={setBirthdate}
+                />
+              </label>
             </div>
-          ))}
+          </section>
+
+          {result ? (
+            <section className="animate-[reveal_300ms_ease-out] rounded-box border border-primary/30 bg-base-200/50 p-6 shadow-sm sm:p-8">
+              <NumerologySummary result={result} />
+            </section>
+          ) : null}
+
+          {digitFrequencies.length > 0 ? (
+            <section className="animate-[reveal_300ms_ease-out] rounded-box border border-base-300 bg-base-200/50 p-4 shadow-sm sm:p-6">
+              <div className="grid grid-cols-3">
+                {digitFrequencies.map((frequency) => (
+                  <ResultNumber key={frequency.digit} {...frequency} />
+                ))}
+              </div>
+            </section>
+          ) : null}
         </div>
       </div>
     </div>

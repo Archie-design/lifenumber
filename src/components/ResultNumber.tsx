@@ -17,9 +17,10 @@ function Circles({ count }: { count: number }) {
           cx={radius}
           cy={radius}
           r={radius - 2}
-          stroke="#3498db"
+          stroke="var(--color-info)"
           fill="none"
           strokeWidth={2}
+          opacity={0.85}
         />
       </svg>
     )
@@ -41,9 +42,10 @@ function Triangles({ count }: { count: number }) {
       >
         <polygon
           points={`${half} 0, ${edge} ${edge}, 0 ${edge}`}
-          stroke="#2ecc71"
+          stroke="var(--color-success)"
           fill="none"
           strokeWidth={2}
+          opacity={0.85}
         />
       </svg>
     )
@@ -63,7 +65,7 @@ function Squares({ count }: { count: number }) {
       >
         <polygon
           points="3 3, 72 3, 72 72, 3 72"
-          stroke="#c0392b"
+          stroke="var(--color-error)"
           fill="none"
           strokeWidth={3}
         />
@@ -79,10 +81,17 @@ export const ResultNumber = memo(function ResultNumber({
   isRoot,
 }: DigitFrequency) {
   const squareCount = isRoot ? 1 : 0
+  const hasShapes = birthdateCount + reducedCount + squareCount > 0
 
   return (
-    <div className="relative flex min-h-40 items-center justify-center">
-      <p className="z-10 text-3xl font-bold">{digit}</p>
+    <div className="relative flex min-h-36 items-center justify-center sm:min-h-40">
+      <p
+        className={`font-display z-10 text-2xl sm:text-3xl ${
+          hasShapes ? 'font-bold text-base-content' : 'font-normal text-base-content/30'
+        }`}
+      >
+        {digit}
+      </p>
       <Circles count={birthdateCount} />
       <Triangles count={reducedCount} />
       <Squares count={squareCount} />
