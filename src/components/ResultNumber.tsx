@@ -1,4 +1,5 @@
 import { memo } from 'react'
+import { DIGIT_ENERGY_TABLES } from '../lib/digitEnergy'
 import type { DigitFrequency } from '../lib/numerology'
 
 function Circles({ count }: { count: number }) {
@@ -86,12 +87,19 @@ export const ResultNumber = memo(function ResultNumber({
   birthdateCount,
   reducedCount,
   isRoot,
-}: DigitFrequency) {
+  onSelect,
+}: DigitFrequency & { onSelect?: (digit: number) => void }) {
   const squareCount = isRoot ? 1 : 0
   const hasShapes = birthdateCount + reducedCount + squareCount > 0
+  const hasEnergyTable = DIGIT_ENERGY_TABLES[digit] !== undefined
 
   return (
-    <div className="relative flex min-h-36 items-center justify-center sm:min-h-40">
+    <div
+      className={`relative flex min-h-36 items-center justify-center sm:min-h-40 ${
+        hasEnergyTable ? 'cursor-pointer' : ''
+      }`}
+      onClick={hasEnergyTable ? () => onSelect?.(digit) : undefined}
+    >
       <p
         className={`font-display z-10 text-2xl sm:text-3xl ${
           hasShapes ? 'font-bold text-base-content' : 'font-normal text-[var(--capture-base-content-30)]'

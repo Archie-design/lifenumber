@@ -1,9 +1,11 @@
 import { toPng } from 'html-to-image'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { BirthdateInput } from './components/BirthdateInput'
+import { DigitEnergyDialog } from './components/DigitEnergyDialog'
 import { NumerologySummary } from './components/NumerologySummary'
 import { ResultNumber } from './components/ResultNumber'
 import { useUrlState } from './hooks/useUrlState'
+import { DIGIT_ENERGY_TABLES } from './lib/digitEnergy'
 import {
   calculateDigitFrequencies,
   calculateNumerology,
@@ -15,7 +17,9 @@ function App() {
   const [birthdate, setBirthdate] = useUrlState('d')
   const inputRef = useRef<HTMLInputElement>(null)
   const captureRef = useRef<HTMLDivElement>(null)
+  const energyDialogRef = useRef<HTMLDialogElement>(null)
   const [captureError, setCaptureError] = useState(false)
+  const [selectedDigit, setSelectedDigit] = useState<number | null>(null)
 
   const isValid = isValidBirthdate(birthdate)
 
@@ -46,6 +50,13 @@ function App() {
       setCaptureError(true)
     }
   }
+
+  const handleSelectDigit = (digit: number) => {
+    setSelectedDigit(digit)
+    energyDialogRef.current?.showModal()
+  }
+
+  const selectedTable = selectedDigit ? DIGIT_ENERGY_TABLES[selectedDigit] : undefined
 
   return (
     <div className="min-h-screen bg-base-100">
@@ -104,7 +115,11 @@ function App() {
             <section className="animate-[reveal_300ms_ease-out] rounded-box border border-base-300 bg-[var(--capture-base-200-50)] p-4 shadow-sm sm:p-6">
               <div className="grid grid-cols-3">
                 {digitFrequencies.map((frequency) => (
-                  <ResultNumber key={frequency.digit} {...frequency} />
+                  <ResultNumber
+                    key={frequency.digit}
+                    {...frequency}
+                    onSelect={handleSelectDigit}
+                  />
                 ))}
               </div>
             </section>
@@ -126,6 +141,12 @@ function App() {
           ) : null}
         </div>
       ) : null}
+
+      <DigitEnergyDialog
+        ref={energyDialogRef}
+        table={selectedTable}
+        onClose={() => setSelectedDigit(null)}
+      />
     </div>
   )
 }
