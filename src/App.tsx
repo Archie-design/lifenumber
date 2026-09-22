@@ -41,7 +41,16 @@ function App() {
     if (!captureRef.current) return
     setCaptureError(false)
     try {
-      const dataUrl = await toPng(captureRef.current)
+      // html-to-image copies the captured element's computed margin onto
+      // the clone it renders into an independent SVG canvas. This
+      // element's `mx-auto` centering margin then still applies inside
+      // that canvas, shifting the whole capture right by that many
+      // pixels (visible as a transparent gap on the left) whenever the
+      // viewport is wider than the element — override it to zero so the
+      // capture always starts flush at the canvas origin.
+      const dataUrl = await toPng(captureRef.current, {
+        style: { margin: '0' },
+      })
       const link = document.createElement('a')
       link.href = dataUrl
       link.download = 'numbers-of-life.png'

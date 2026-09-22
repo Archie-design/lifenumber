@@ -129,6 +129,33 @@ they come from Lightning CSS's own internal diagnostic tooling, not from
 arbitrary-value classes added here. Left unaddressed as out of scope for
 this change.
 
+**Post-ship fix: `toPng()` clones the captured element's computed
+`margin`, which reintroduces the page's `mx-auto` centering offset inside
+the independent capture canvas.** Discovered after this change had
+already shipped, when a user testing on a wide browser window (the
+digit-energy-table feature's development prompted a fresh manual test)
+reported a large blank region on the left side of the downloaded PNG.
+Root cause, confirmed by inspecting `html-to-image`'s source
+(`clone-node.js`'s `cloneCSSStyle`): it copies the source element's full
+`getComputedStyle().cssText` onto the clone, including the concrete
+pixel `margin-left`/`margin-right` that `mx-auto` resolves to for
+centering the element in the *original* page. That margin still applies
+once the clone is placed inside `toPng()`'s own single-element SVG
+canvas, shifting the rendered content right by exactly that many pixels
+— invisible at a narrow viewport (where the centering margin happens to
+be ~0), but a wide left-side transparent gap at any viewport
+meaningfully wider than the `max-w-2xl` content (confirmed
+reproducible starting around 900px and worse at 1440px, a realistic
+desktop browser width). This also explains why this change's own
+verification (task 4.1/4.2) missed it: testing was done at narrow
+viewport widths (672-900px) where the offset from centering margin
+happens to be small or zero. Fixed in `App.tsx`'s `handleDownload` by
+passing `toPng(captureRef.current, { style: { margin: '0' } })` —
+`html-to-image`'s `options.style` is applied to the clone after the
+computed-style copy, so it reliably overrides the inherited margin.
+Verified via pixel sampling of the actual downloaded PNG at 672/900/
+1200/1440px viewport widths, in both light and dark mode.
+
 ## Risks / Trade-offs
 
 - **[Risk]** `toPng()` reads computed styles synchronously at capture
