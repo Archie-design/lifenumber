@@ -32,7 +32,7 @@ function App() {
 
   return (
     <div className="app container mx-auto px-5">
-      <div className="mx-auto max-w-2xl space-y-4 py-5">
+      <div className="mx-auto max-w-3xl space-y-4 py-5">
         <div>
           <div className="text-center text-3xl">Your Name</div>
           <input

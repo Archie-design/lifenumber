@@ -3,7 +3,7 @@ import type { DigitFrequency } from '../lib/numerology'
 
 function Circles({ count }: { count: number }) {
   return Array.from({ length: count }, (_, i) => {
-    const size = 32 * (i + 1)
+    const size = 48 * (i + 1)
     const radius = size / 2
     return (
       <svg
@@ -28,7 +28,7 @@ function Circles({ count }: { count: number }) {
 
 function Triangles({ count }: { count: number }) {
   return Array.from({ length: count }, (_, i) => {
-    const size = 0.8 * (i + 1) * 50 + 10
+    const size = 0.8 * (i + 1) * 75 + 15
     const half = size / 2
     const edge = size - 3
     return (
@@ -52,20 +52,20 @@ function Triangles({ count }: { count: number }) {
 
 function Squares({ count }: { count: number }) {
   return Array.from({ length: count }, (_, i) => {
-    const size = 1.2 * (i + 1) * 50
+    const size = 1.2 * (i + 1) * 75
     return (
       <svg
         key={i}
         height={size}
         width={size}
-        viewBox="0 0 50 50"
+        viewBox="0 0 75 75"
         className="absolute"
       >
         <polygon
-          points="2 2, 48 2, 48 48, 2 48"
+          points="3 3, 72 3, 72 72, 3 72"
           stroke="#c0392b"
           fill="none"
-          strokeWidth={2}
+          strokeWidth={3}
         />
       </svg>
     )
@@ -81,8 +81,8 @@ export const ResultNumber = memo(function ResultNumber({
   const squareCount = isRoot ? 1 : 0
 
   return (
-    <div className="relative flex items-center justify-center aspect-square">
-      <p className="z-10 text-2xl font-bold">{digit}</p>
+    <div className="relative flex min-h-40 items-center justify-center">
+      <p className="z-10 text-3xl font-bold">{digit}</p>
       <Circles count={birthdateCount} />
       <Triangles count={reducedCount} />
       <Squares count={squareCount} />
