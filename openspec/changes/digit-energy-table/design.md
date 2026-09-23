@@ -198,9 +198,11 @@ surfaced beyond the missing-cell case digits 2-3 already established:
 **Merged cells.** Several of these tables have one cell whose content
 visually spans multiple rows in the source material — e.g. digit 5's
 中階 column shares one block of text across rows 2-3; digit 7's 中階
-and 高階 columns each span all 4 rows as a single value; digit 9's 中階
-spans rows 3-4 and its 高階 spans rows 3-4 (a different span than 中階
-in that same table). Confirmed with the user: represent this by
+and 高階 columns each span all 4 rows as a single value. (Digit 9's
+中階/高階 cells were initially misread as merged across rows 3-4 — see
+the trade-off note below — but a corrected re-crop showed each row's
+中階/高階 is an independent, non-merged cell, some genuinely blank.)
+Confirmed with the user: represent this by
 duplicating the shared text into each affected row's `DigitEnergyRow`
 rather than introducing a rowspan concept into the data model or
 `DigitEnergyDialog`'s rendering. This keeps `DigitEnergyRow` unchanged
@@ -271,17 +273,16 @@ span all 4 rows as one value:**
 | 2 | 追求權力而霸道、獨裁，暴躁、暴力、任性驕傲，控制慾、自我保護心強 | 對權力能授權、而不棄權進退取捨得宜 | 統合力整合力掌控力 | 經營力之誕生，能運用個人權力，而不被困住，警覺心強、直覺力 |
 | 3 | 因追求各權力受傷後轉向另一極端、而放棄掌控、消沉、頹廢、自我放棄、厭惡名權力、懦弱 | 入世修名權利之功課，學習善用人事物 | 善謀略、策劃 | 能掌控時機、高效率、行動力強 |
 
-**Digit 9 — "靈性與智慧" (Spirituality & Wisdom), 6 rows, 中階 spans
-rows 3-4, 高階 spans rows 3-4 (different content than 中階's span),
-row 5 has no 中階/高階/lesson content at all:**
+**Digit 9 — "靈性與智慧" (Spirituality & Wisdom), 6 rows, no merges —
+中階/高階 are independent per-row cells, several genuinely blank:**
 
 | | 低階 | 修功課 | 中階 | 高階 |
 |---|---|---|---|---|
 | 1 | 追求靈性而走偏路、未覺醒 假大空：愛幻想、胡思亂想、做白日夢、只重視靈性、似夢飛夢、游離狀態 | 靈性需落地在生活、工作去實踐、穿越、入世而不執著、體驗合一 靈性功課：體驗宇宙一體、學習如何超越物質而辨識方向(智慧) 此智慧非來自文字、理論，而是內在微妙的感知 | 人道精神由個體回歸一體 | 靈性覺醒、宇宙本一體、合一、超越個我、宣導人道主義、利他而發出光芒 |
 | 2 | 陽虛：懶散、草率、沒企圖心、漫無目標、自我麻痺、忽略、逃避、愛睡覺、身體不好 | 設立明確的短、中期目標，設太長目標，會不知所措 多運動、修執行力，面對問題不逃避、修積極度 | 充滿靈感、創造力、直覺力、豁達 | 超越凡人智慧及洞察世間的能力、大愛 |
-| 3 | 沈迷偏門宗教、網路、抽菸、神經錯亂 | 別縱容自己壞習慣，先將渙散能量聚起來 | 正直、慈悲能智慧取捨不濫好人（spans rows 3-4） | （absent） |
-| 4 | 濫好人、不會拒絕、悲情、成全、沒自我、犧牲、意易受周遭影響 | 活出自己、有主見的拒絕不必要干擾 | （同上，重複） | 以身教引導人，由物質世界反航具群眾魅力、身教好之靈性領導、以身作則、提昇人性人性 |
-| 5 | 身教不好、影響別人、誤導別人、近朱者赤、近墨者黑、尤其9多者 | （absent） | （absent） | （absent） |
+| 3 | 沈迷偏門宗教、網路、抽菸、神經錯亂 | 別縱容自己壞習慣，先將渙散能量聚起來 | （absent） | （absent） |
+| 4 | 濫好人、不會拒絕、悲情、成全、沒自我、犧牲、意易受周遭影響 | 活出自己、有主見的拒絕不必要干擾 | 正直、慈悲能智慧取捨不濫好人 | （absent） |
+| 5 | 身教不好、影響別人、誤導別人、近朱者赤、近墨者黑、尤其9多者 | （absent） | （absent） | 以身教引導人，由物質世界反航具群眾魅力、身教好之靈性領導、以身作則、提昇人性人性 |
 | 6 | 因為自己不夠完美、而對自己有疑惑、否定自我價值、而放棄自己、頹廢生活、批判自己、不信任自己、罪惡感、因靈性探索有時走偏、而反向極端成：理性求知識、不親證、放縱自己、忽略內在聲音與直覺 | 透過利他、熱心服務、無求付出來找到自我價值 | 不功利、無為付出不像6 | 超越凡人智慧及洞察世間的能力 |
 
 - **[Trade-off]** Hand-editing a TypeScript data literal for all nine
@@ -290,13 +291,16 @@ row 5 has no 中階/高階/lesson content at all:**
   transcription, which required two rounds of image re-crop/rotate to
   read correctly — digit 9 required a third due to its differing photo
   orientation) → accepted since proposal.md treats a CMS/admin UI as a
-  non-goal; each digit's transcription was cross-checked against
-  precisely-cropped close-up regions of its source photo before being
-  confirmed with the user, specifically to catch merged-cell
-  misattribution (an error that did occur once during transcription —
-  digit 9's row 2/3 中階 values were initially misread as duplicated
-  before a closer crop revealed row 2 was independent and only rows 3-4
-  were merged).
+  non-goal; digit 9's 中階/高階 cells were initially transcribed
+  incorrectly (misread as merged across rows 3-4, with row 5 assumed
+  fully blank) because the offset between the left columns' taller text
+  and the narrower 中階/高階 columns made the row-grid lines easy to
+  misjudge from an unaligned crop. A corrected full-width crop showing
+  all four columns' grid lines together revealed the true, non-merged
+  per-row values (row 3: both blank; row 4: 中階 only; row 5: 高階
+  only) — caught via user review after initial publication and fixed by
+  re-cropping with the row lines kept visible across the full table
+  width, not just the column being checked.
 - **[Risk]** DaisyUI's native `<dialog>` modal requires `showModal()` to
   be called imperatively (not just toggling a CSS class), which means the
   open/close state isn't purely declarative React state → **Mitigation**:

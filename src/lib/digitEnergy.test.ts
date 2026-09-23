@@ -92,18 +92,25 @@ describe('DIGIT_ENERGY_TABLES', () => {
     }
   })
 
-  it('digit 9 has 6 rows, with mid duplicated across rows 3-4 and row 5 having only low', () => {
+  it('digit 9 has 6 rows, with rows 3-5 each missing different cells', () => {
     const table = DIGIT_ENERGY_TABLES[9]
     expect(table).toBeDefined()
     expect(table!.rows).toHaveLength(6)
-    expect(table!.rows[2].mid).toBe(table!.rows[3].mid)
-    expect(table!.rows[2].mid?.length).toBeGreaterThan(0)
-    expect(table!.rows[2].high).toBeUndefined()
-    expect(table!.rows[3].high?.length).toBeGreaterThan(0)
+
+    const row3 = table!.rows[2]
+    expect(row3.low?.length).toBeGreaterThan(0)
+    expect(row3.lesson?.length).toBeGreaterThan(0)
+    expect(row3.mid).toBeUndefined()
+    expect(row3.high).toBeUndefined()
+
+    const row4 = table!.rows[3]
+    expect(row4.mid?.length).toBeGreaterThan(0)
+    expect(row4.high).toBeUndefined()
+
     const row5 = table!.rows[4]
     expect(row5.low?.length).toBeGreaterThan(0)
     expect(row5.lesson).toBeUndefined()
     expect(row5.mid).toBeUndefined()
-    expect(row5.high).toBeUndefined()
+    expect(row5.high?.length).toBeGreaterThan(0)
   })
 })
