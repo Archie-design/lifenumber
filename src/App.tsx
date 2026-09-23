@@ -48,8 +48,16 @@ function App() {
       // pixels (visible as a transparent gap on the left) whenever the
       // viewport is wider than the element — override it to zero so the
       // capture always starts flush at the canvas origin.
+      //
+      // skipFonts avoids toPng() scanning every stylesheet (including
+      // the Google Fonts CJK import) to embed matching font files into
+      // the output — an ~8s step for this project's large Noto subset
+      // count. The capture already renders text using whichever font is
+      // currently active on screen, embedding or not, so this has no
+      // visible effect since the feature only ever produces a PNG.
       const dataUrl = await toPng(captureRef.current, {
         style: { margin: '0' },
+        skipFonts: true,
       })
       const link = document.createElement('a')
       link.href = dataUrl
