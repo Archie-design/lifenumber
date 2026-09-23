@@ -15,8 +15,8 @@ tool.
 ## What Changes
 
 - Add a structured data source holding each digit's energy-level table
-  (low/lesson/mid/high columns, per digit 1-9). Digits 1-3 are populated
-  in this change; digits 4-9 remain absent from the dataset.
+  (low/lesson/mid/high columns, per digit 1-9). All nine digits are
+  populated by the end of this change.
 - **Row count and per-row cell completeness vary by digit, not a fixed
   5-row/4-column shape.** Digit 1's reference material has 5 complete
   rows; digits 2 and 3's reference material has 4 rows each, with
@@ -50,10 +50,8 @@ been archived, so `openspec list --specs` reports no specs)._
 
 ## Impact
 
-- `src/lib/` — new data module holding the per-digit table content
-  (digits 1-3 populated, 4-9 absent by design — not stubbed with empty
-  tables, so the "no data" behavior is a true absence check, not an
-  empty-table render).
+- `src/lib/` — new data module holding the per-digit table content, all
+  nine digits populated by the end of this change.
 - `src/components/ResultNumber.tsx` — becomes clickable when data exists
   for its digit; no visual/behavior change when it doesn't.
 - New component: a modal/dialog for displaying the table (DaisyUI

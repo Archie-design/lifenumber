@@ -83,3 +83,28 @@
       and dark mode
 - [x] 5.6 Run `npm test`, `npx tsc -b`, `npx oxlint`, and `npm run build`
       and verify all pass with no new errors or warnings
+
+## 6. Expand to digits 4-9, complete the dataset
+
+- [x] 6.1 Add digits 4 ("穩定與程序", 2 rows), 5 ("自由與規範", 3 rows),
+      6 ("付出與真愛", 3 rows), 7 ("真理與信任", 4 rows), 8
+      ("豐富與權力", 3 rows), and 9 ("靈性與智慧", 6 rows) to
+      `DIGIT_ENERGY_TABLES` per design.md's confirmed transcription,
+      duplicating merged-source-cell text into each affected row per the
+      new spec requirement, and verify `npx tsc -b` passes
+- [x] 6.2 Update `digitEnergy.test.ts`: remove the now-incorrect
+      "has no entry for unpopulated digits" test (digits 4-9 are now
+      populated), and add assertions for each new digit's row count and
+      at least one representative populated/absent-cell or merged-cell
+      pair (e.g. digit 5's row 2/3 `mid` sharing identical text, digit
+      7's `mid`/`high` identical across all 4 rows, digit 9's row 3
+      `high` absent while row 4's is populated, digit 9's row 5 having
+      only `low`); verify `npm test` passes
+- [x] 6.3 With a birthdate entered, click digits 4 through 9 in the grid
+      and verify each dialog shows the correct title and row content
+      matching design.md's transcription, paying particular attention to
+      digits 5, 7, and 9's merged-cell rows rendering the duplicated text
+      correctly (not blank, not visually merged) in both light and dark
+      mode
+- [x] 6.4 Run `npm test`, `npx tsc -b`, `npx oxlint`, and `npm run build`
+      and verify all pass with no new errors or warnings

@@ -70,10 +70,27 @@ of the digit's current circle/triangle/square frequency marks.
 ### Requirement: Tapping a digit with no table data does nothing
 
 Tapping a cell for a digit that has no energy-table content SHALL NOT
-open a modal, show any visual feedback, or produce an error.
+open a modal, show any visual feedback, or produce an error. This
+guards the general case — all nine digits happen to be populated as of
+this change, but the behavior SHALL still hold for any digit absent
+from `DIGIT_ENERGY_TABLES` (e.g. if content is temporarily removed).
 
 #### Scenario: Tapping an unpopulated digit is a no-op
 
-- **WHEN** the user taps a cell for a digit that has no energy-table
-  content (e.g. digit 4, still unpopulated)
+- **WHEN** the user taps a cell for a digit that has no entry in
+  `DIGIT_ENERGY_TABLES`
 - **THEN** no modal opens and nothing visibly changes on the page
+
+### Requirement: Content spanning multiple rows in the source material is duplicated per row, not visually merged
+
+Where the reference material shows one cell's content visually spanning
+multiple rows (a merged cell), the system SHALL represent this by
+repeating that content in the corresponding cell of each affected row,
+rather than rendering a merged/spanned cell in the UI.
+
+#### Scenario: A multi-row source cell appears identically in each affected row
+
+- **WHEN** a digit's reference material has one 中階 (or any column)
+  value spanning two consecutive rows
+- **THEN** the energy table data has that same text value in both rows'
+  corresponding column, and the dialog displays it in both rows
