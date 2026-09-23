@@ -26,8 +26,8 @@ export const DigitEnergyDialog = forwardRef<
                 key={index}
                 className="grid grid-cols-1 gap-3 border-b border-base-300 pb-4 last:border-none sm:grid-cols-4 sm:gap-4 sm:pb-4"
               >
-                {LEVEL_LABELS.filter(({ key }) => row[key]).map(
-                  ({ key, label, colorClassName }) => (
+                {LEVEL_LABELS.map(({ key, label, colorClassName }) =>
+                  row[key] ? (
                     <div key={key}>
                       <p
                         className={`text-xs font-medium tracking-wide ${colorClassName}`}
@@ -38,6 +38,8 @@ export const DigitEnergyDialog = forwardRef<
                         {row[key]}
                       </p>
                     </div>
+                  ) : (
+                    <div key={key} className="hidden sm:block" />
                   ),
                 )}
               </div>
