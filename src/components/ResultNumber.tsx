@@ -2,8 +2,14 @@ import { memo } from 'react'
 import { DIGIT_ENERGY_TABLES } from '../lib/digitEnergy'
 import type { DigitFrequency } from '../lib/numerology'
 
+// Layers beyond this simply aren't drawn — a birthdate can in principle
+// repeat a digit far more than 3 times (e.g. 1911/11/11), and at any
+// fixed scale that many stacked layers either stays too large on mobile
+// or forces 1-2-layer digits (the common case) into illegibility.
+const MAX_RENDERED_LAYERS = 3
+
 function Circles({ count }: { count: number }) {
-  return Array.from({ length: count }, (_, i) => {
+  return Array.from({ length: Math.min(count, MAX_RENDERED_LAYERS) }, (_, i) => {
     const size = 48 * (i + 1)
     const radius = size / 2
     return (
@@ -12,7 +18,11 @@ function Circles({ count }: { count: number }) {
         height={size}
         width={size}
         viewBox={`0 0 ${size} ${size}`}
-        className="absolute inset-0 m-auto"
+        className="absolute top-1/2 left-1/2"
+        style={{
+          transform:
+            'translate(-50%, -50%) scale(var(--grid-mark-scale))',
+        }}
       >
         <circle
           cx={radius}
@@ -32,7 +42,7 @@ function Circles({ count }: { count: number }) {
 // base, not at the bounding-box center — so the polygon is inset within a
 // taller viewBox and shifted up to align its centroid with the box center.
 function Triangles({ count }: { count: number }) {
-  return Array.from({ length: count }, (_, i) => {
+  return Array.from({ length: Math.min(count, MAX_RENDERED_LAYERS) }, (_, i) => {
     const size = 0.8 * (i + 1) * 75 + 15
     const box = size * 1.2
     const half = box / 2
@@ -46,7 +56,11 @@ function Triangles({ count }: { count: number }) {
         height={box}
         width={box}
         viewBox={`0 0 ${box} ${box}`}
-        className="absolute inset-0 m-auto"
+        className="absolute top-1/2 left-1/2"
+        style={{
+          transform:
+            'translate(-50%, -50%) scale(var(--grid-mark-scale))',
+        }}
       >
         <polygon
           points={`${half} ${top}, ${right} ${bottom}, ${left} ${bottom}`}
@@ -69,7 +83,11 @@ function Squares({ count }: { count: number }) {
         height={size}
         width={size}
         viewBox="0 0 75 75"
-        className="absolute inset-0 m-auto"
+        className="absolute top-1/2 left-1/2"
+        style={{
+          transform:
+            'translate(-50%, -50%) scale(var(--grid-mark-scale))',
+        }}
       >
         <polygon
           points="3 3, 72 3, 72 72, 3 72"

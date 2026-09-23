@@ -44,7 +44,7 @@ export const DigitEnergyDialog = forwardRef<
 
           <div className="modal-action">
             <form method="dialog">
-              <button type="submit" className="btn">
+              <button type="submit" className="btn min-h-11">
                 關閉
               </button>
             </form>

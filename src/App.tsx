@@ -79,7 +79,7 @@ function App() {
     <div className="min-h-screen bg-base-100">
       <div
         ref={captureRef}
-        className="mx-auto max-w-2xl bg-base-100 px-4 py-10 sm:py-14"
+        className="mx-auto max-w-2xl bg-base-100 px-4 pt-10 pb-4 sm:py-14"
       >
         <header className="mb-10 text-center">
           <p className="font-display text-sm tracking-[0.3em] text-primary uppercase">
@@ -103,7 +103,7 @@ function App() {
                 <input
                   type="text"
                   placeholder="請輸入姓名"
-                  className="input input-bordered w-full rounded-field bg-base-100 text-center text-2xl transition-shadow focus:outline-none focus:ring-2 focus:ring-[var(--capture-primary-40)]"
+                  className="input input-bordered min-h-11 w-full rounded-field bg-base-100 text-center text-2xl transition-shadow focus:outline-none focus:ring-2 focus:ring-[var(--capture-primary-40)]"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
@@ -145,11 +145,11 @@ function App() {
       </div>
 
       {result ? (
-        <div className="mx-auto max-w-2xl px-4 pb-10 text-center">
+        <div className="mx-auto max-w-2xl px-4 pt-2 pb-10 text-center sm:pt-0">
           <button
             type="button"
             onClick={handleDownload}
-            className="btn btn-outline btn-primary"
+            className="btn btn-outline btn-primary min-h-11"
           >
             下載截圖
           </button>

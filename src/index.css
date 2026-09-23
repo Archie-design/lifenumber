@@ -83,6 +83,15 @@
   --capture-base-content-70: rgba(42, 32, 24, 0.7);
   --capture-primary-30: rgba(30, 27, 75, 0.3);
   --capture-primary-40: rgba(30, 27, 75, 0.4);
+
+  /*
+   * Scales the digit-grid's circle/triangle/square marks (ResultNumber.tsx)
+   * down on narrow viewports, where their fixed pixel sizes can crowd or
+   * overlap neighboring grid cells. Matches Tailwind's `sm:` breakpoint
+   * (40rem/640px) so it switches at the same width as the surrounding
+   * text's `sm:text-3xl`-style responsive sizing.
+   */
+  --grid-mark-scale: 0.65;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -94,6 +103,12 @@
     --capture-base-content-70: rgba(240, 236, 223, 0.7);
     --capture-primary-30: rgba(202, 138, 4, 0.3);
     --capture-primary-40: rgba(202, 138, 4, 0.4);
+  }
+}
+
+@media (min-width: 40rem) {
+  :root {
+    --grid-mark-scale: 1;
   }
 }
 

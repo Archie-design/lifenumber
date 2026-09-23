@@ -23,7 +23,7 @@ export const BirthdateInput = forwardRef<HTMLInputElement, BirthdateInputProps>(
           type="text"
           inputMode="numeric"
           placeholder="____/__/__"
-          className="input input-bordered w-full rounded-field bg-base-100 text-center text-2xl tracking-wider transition-shadow focus:outline-none focus:ring-2 focus:ring-[var(--capture-primary-40)]"
+          className="input input-bordered min-h-11 w-full rounded-field bg-base-100 text-center text-2xl tracking-wider transition-shadow focus:outline-none focus:ring-2 focus:ring-[var(--capture-primary-40)]"
           value={value}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
