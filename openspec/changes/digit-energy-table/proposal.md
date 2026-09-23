@@ -15,15 +15,23 @@ tool.
 ## What Changes
 
 - Add a structured data source holding each digit's energy-level table
-  (low/lesson/mid/high columns, 5 rows each, per digit 1-9). Only digit 1
-  is populated in this change; digits 2-9 are absent from the dataset.
+  (low/lesson/mid/high columns, per digit 1-9). Digits 1-3 are populated
+  in this change; digits 4-9 remain absent from the dataset.
+- **Row count and per-row cell completeness vary by digit, not a fixed
+  5-row/4-column shape.** Digit 1's reference material has 5 complete
+  rows; digits 2 and 3's reference material has 4 rows each, with
+  several cells genuinely blank in the source (e.g. digit 2's row 4 has
+  no 中階/高階 text, digit 3's row 2 has no 中階 text). The data model
+  and rendering support a variable number of rows per digit and an
+  optional value per cell — a missing cell is a real, renderable state
+  (simply not shown), not an error or a placeholder empty string.
 - Make each cell in the digit-frequency grid clickable, regardless of
   whether it currently shows any circle/triangle/square marks.
 - Clicking a digit that has data opens a modal dialog showing that
   digit's title and its low/lesson/mid/high table, styled with the
   existing DaisyUI theme (reusing `success`/`neutral`/`accent`-style
   semantic coloring for the level columns rather than introducing a new
-  palette).
+  palette). A row renders only the cells it actually has content for.
 - Clicking a digit with no data in the dataset does nothing — no dialog,
   no visual feedback, no console error.
 - No changes to the numerology calculation logic, the digit-frequency
@@ -43,7 +51,7 @@ been archived, so `openspec list --specs` reports no specs)._
 ## Impact
 
 - `src/lib/` — new data module holding the per-digit table content
-  (digit 1 populated, 2-9 absent by design — not stubbed with empty
+  (digits 1-3 populated, 4-9 absent by design — not stubbed with empty
   tables, so the "no data" behavior is a true absence check, not an
   empty-table render).
 - `src/components/ResultNumber.tsx` — becomes clickable when data exists

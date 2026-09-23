@@ -137,7 +137,57 @@ content yet" (an empty modal-box) only in the narrow window before
 `selectedDigit` state has propagated — which is not user-visible since
 `showModal()` and the state update both originate from the same click.
 
-## Risks / Trade-offs
+## Revised: digits 2-3 added, row/cell shape loosened
+
+Adding digits 2 and 3 (photos transcribed and confirmed with the user)
+surfaced exactly the risk flagged below: their reference material
+doesn't share digit 1's shape.
+
+| | 低階 | 修功課 | 中階 | 高階 |
+|---|---|---|---|---|
+| 1 | 缺自我快樂能力而把快樂建立在別人的身上；期待從別人身上得到快樂，去討好他人 / 依賴心重，希望被依賴，怕孤獨不會獨處、拒絕自立，不肯自己負責 | 修獨處：自己給自己帶來快樂、放棄依賴則洞察力變強、以和諧、溝通、相互支援的態度協調，與他人合作 | 可以獨處了配合度好合作協調分工 | 協調高手善於合作 |
+| 2 | 退縮：優柔寡斷、患得患失、矛盾情節、過度分析敏感、拘泥細節、會分析別人而不會分析自己、常為一個點而忽略其他面向 | 抉擇註定有得失 要承受所抉擇之失 | 擅長分析察言觀色細心、耐心 | 明辨是非熟悉因果 |
+| 3 | 沒主見、迎合他人、偽裝說謊、壓抑自己、雞婆、愛管別人、常為扛別人功課而犧牲自己，背太多、壓抑自己需求、委屈、生怨恨 | 因長期迎合別人而不知自己要什麼、活出自己、評估自己、能力而付出不犧牲、雙贏、別揹別人功課 ▲找到自己的價值，別忽略自己需求 | 熱誠助人善解人意細心、體貼陰柔面 | 取得平衡洞察力強 |
+| 4 | 另一極端：封閉、固執、冷漠、害怕再給了、是非、喜評斷他人、拒絕與人合作 | 從過去傷痛走出來、活出自己 | *(absent)* | *(absent)* |
+
+*Digit 2 — "合作與協調" (Cooperation & Coordination), 4 rows.*
+
+| | 低階 | 修功課 | 中階 | 高階 |
+|---|---|---|---|---|
+| 1 | 溝通障礙而缺自信 / 不善表達：內吞、囉叨、語言傷人、愛現、說教 | 修：別害怕表達 表達的藝術、語覺、正向的表達、利於大眾的表達、不斷在表達上精進，包含語言、文字、藝術、情緒不斷學習如何將自我生命之正能量、盡情表達、美的表達 | 成功的表達者：搞笑、樂觀、外向、活潑，表達完整，社交表現佳(歌、舞)、感性溝通力強、表達順暢 | 表達能帶給別人、眾生建設性人性昇華和合、進步 |
+| 2 | 因表達障礙產生，無法控制的情緒，黑白一線之隔 | 誠實面對自己：深層感覺與情緒壓力 / 內吞:要修真誠的表達自己、不虛假 / 溝通太自我:要修婉轉的藝術 | *(absent)* | 表達的隨機變化取捨得宜剛柔並濟 |
+| 3 | 跳躍性思維、善變、注意力渙散、迷糊、三分鐘熱度、膚淺、走不深、行為脫序、急性、冒失 | 注意自己別陷入負面情緒的表達 練習深度、專注融入、持續力 | 專注力，想法貫徹始終到底執行不拖拖拉拉、不依賴 | 有基礎之創造力，革新者不怕改變不斷優化自己而補足外在 |
+| 4 | 只專注自己想要的，而忽略別人、任性 | 打破自己的執著而改變 | 統合性關注，非單一關注而忽略其它，大方、擅交際 | *(absent)* |
+
+*Digit 3 — "表達與改革" (Expression & Reform), 4 rows.*
+
+**Type change: every `DigitEnergyRow` field becomes optional
+(`low?/lesson?/mid?/high?: string`), and `rows.length` is no longer
+assumed to be 5.** The original `rows: DigitEnergyRow[]` type already
+allowed variable length in principle, but the required (non-optional)
+string fields meant a genuinely blank cell had no valid representation
+short of an empty string — which spec.md's original wording explicitly
+ruled out ("each containing five row entries... non-empty text"). Empty
+strings were rejected as the fix (confirmed with the user) because they
+conflate "no content" with "content is an empty string" and would need
+the same presence-check logic at render time anyway, just spelled with
+`=== ''` instead of `=== undefined`. Optional fields make presence
+checking uniform with how `DIGIT_ENERGY_TABLES[digit]` itself is already
+checked (existence, not truthiness of a placeholder).
+
+**Rendering: `DigitEnergyDialog` filters to only a row's populated
+columns, rather than rendering all four `LEVEL_LABELS` unconditionally.**
+Previously every row rendered a fixed `sm:grid-cols-4` with one block per
+`LEVEL_LABELS` entry; a row with a missing cell would have shown an empty
+label with no content beneath it. Changed to filter `LEVEL_LABELS` down
+to the keys present on that specific row before mapping, so e.g. digit
+2's row 4 (low + lesson only) renders as a 2-column row, not a 4-column
+row with two blank-looking cells. The grid's `sm:grid-cols-4` class stays
+fixed-width (not `grid-cols-{count}`) so populated cells still align to
+the same column positions across rows within a table — a row with fewer
+cells leaves trailing grid tracks empty rather than stretching its own
+cells wider, keeping the low/lesson/mid/high alignment a reader can scan
+down consistent.
 
 - **[Trade-off]** Hand-editing a TypeScript data literal for digits 2-9
   later means each addition is a manual, unreviewed-by-tooling transcription

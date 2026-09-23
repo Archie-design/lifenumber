@@ -55,3 +55,31 @@
       pre-existing Lightning CSS warnings documented in
       `openspec/changes/page-screenshot-export/design.md` are expected
       and unrelated to this change)
+
+## 5. Expand to digits 2-3, loosen row/cell shape
+
+- [x] 5.1 Update `DigitEnergyRow` so `low`/`lesson`/`mid`/`high` are all
+      optional, and verify `npx tsc -b` passes with no type errors
+      (digit 1's existing entry should still typecheck unchanged)
+- [x] 5.2 Add digit 2 ("合作與協調", 4 rows) and digit 3 ("表達與改革",
+      4 rows) to `DIGIT_ENERGY_TABLES` per design.md's confirmed
+      transcription, including their blank cells as omitted fields (not
+      empty strings), and verify `npx tsc -b` passes
+- [x] 5.3 Update `DigitEnergyDialog` to filter each row to only its
+      populated `LEVEL_LABELS` entries before rendering, and verify a
+      row with a missing cell (e.g. digit 2's row 4) shows only its
+      populated columns, not an empty label with blank content, per
+      spec.md "Digit 2's table has 4 rows with some cells absent"
+- [x] 5.4 Update `digitEnergy.test.ts`: replace the digit-1-specific
+      "exactly 5 rows, all cells non-empty" assertion with a
+      shape-agnostic check, add assertions for digit 2's row 4 (missing
+      中階/高階) and digit 3's row 2 (missing 中階), and update the
+      "unpopulated digit" test to use digit 4 instead of digit 2 (now
+      populated); verify `npm test` passes
+- [x] 5.5 With a birthdate entered, click digits 2 and 3 in the grid and
+      verify each dialog shows the correct title and row content
+      matching design.md's transcription, and verify digit 2's row 4 /
+      digit 3's row 2 render without empty-looking cells, in both light
+      and dark mode
+- [x] 5.6 Run `npm test`, `npx tsc -b`, `npx oxlint`, and `npm run build`
+      and verify all pass with no new errors or warnings
